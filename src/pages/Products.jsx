@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
@@ -11,7 +11,21 @@ const sampleProducts = [
 ];
 
 const Products = () => {
-  const [products] = useState(sampleProducts);
+  const [products, setProducts] = useState(sampleProducts);
+  const location = useLocation();
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const searchQuery = params.get("search") || "";
+    if (searchQuery) {
+      const filteredProducts = sampleProducts.filter((product) =>
+        product.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setProducts(filteredProducts);
+    } else {
+      setProducts(sampleProducts);
+    }
+  }, [location.search]);
 
   return (
     <div className="container mx-auto p-4">

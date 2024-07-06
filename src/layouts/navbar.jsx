@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -104,19 +106,36 @@ const ShoppingCartIcon = () => (
   </Button>
 );
 
-const SearchBar = () => (
-  <div className="relative flex-1 mx-4">
-    <input
-      type="text"
-      placeholder="Search..."
-      className="w-full px-4 py-2 border rounded-full"
-    />
-    <Button variant="secondary" size="icon" className="absolute right-2 top-1/2 transform -translate-y-1/2">
-      <Search className="h-5 w-5" />
-      <span className="sr-only">Search</span>
-    </Button>
-  </div>
-);
+const SearchBar = () => {
+  const [query, setQuery] = useState("");
+  const navigate = useNavigate();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    navigate(`/products?search=${query}`);
+  };
+
+  return (
+    <form onSubmit={handleSearch} className="relative flex-1 mx-4">
+      <input
+        type="text"
+        placeholder="Search..."
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        className="w-full px-4 py-2 border rounded-full"
+      />
+      <Button
+        type="submit"
+        variant="secondary"
+        size="icon"
+        className="absolute right-2 top-1/2 transform -translate-y-1/2"
+      >
+        <Search className="h-5 w-5" />
+        <span className="sr-only">Search</span>
+      </Button>
+    </form>
+  );
+};
 
 const NavItem = ({ to, children, className }) => (
   <NavLink
