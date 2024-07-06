@@ -9,21 +9,27 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
-import { CircleUser, Menu, Package2 } from "lucide-react";
+import { CircleUser, Menu, Package2, Search, ShoppingCart } from "lucide-react";
 import { NavLink, Outlet } from "react-router-dom";
 import { navItems } from "../App";
+import Footer from "../components/Footer";
 
 const Layout = () => {
   return (
     <div className="flex min-h-screen w-full flex-col">
       <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6 justify-between">
         <DesktopNav />
+        <SearchBar />
+        <div className="flex items-center gap-4">
+          <UserMenu />
+          <ShoppingCartIcon />
+        </div>
         <MobileNav />
-        <UserMenu />
       </header>
       <main className="flex-grow overflow-auto">
         <Outlet />
       </main>
+      <Footer />
     </div>
   );
 };
@@ -89,6 +95,27 @@ const UserMenu = () => (
       <DropdownMenuItem>Logout</DropdownMenuItem>
     </DropdownMenuContent>
   </DropdownMenu>
+);
+
+const ShoppingCartIcon = () => (
+  <Button variant="secondary" size="icon" className="rounded-full">
+    <ShoppingCart className="h-5 w-5" />
+    <span className="sr-only">Shopping Cart</span>
+  </Button>
+);
+
+const SearchBar = () => (
+  <div className="relative flex-1 mx-4">
+    <input
+      type="text"
+      placeholder="Search..."
+      className="w-full px-4 py-2 border rounded-full"
+    />
+    <Button variant="secondary" size="icon" className="absolute right-2 top-1/2 transform -translate-y-1/2">
+      <Search className="h-5 w-5" />
+      <span className="sr-only">Search</span>
+    </Button>
+  </div>
 );
 
 const NavItem = ({ to, children, className }) => (
